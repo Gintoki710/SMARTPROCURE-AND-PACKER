@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pack & Plan • DSA Budget & Packing Optimizer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="app-body">
+
+  <div class="app-layout">
+    
+    <!-- ========================================================================= -->
+    <!-- LEFT SIDEBAR NAVIGATION (PITCH BLACK MONOCHROME)                          -->
+    <!-- ========================================================================= -->
+    <aside class="app-sidebar">
+      <!-- Logo Branding -->
+      <div class="sidebar-brand">
+        <div class="brand-cube-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" class="cube-svg">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </div>
+        <div class="brand-titles">
+          <span class="brand-name">DSA Project</span>
+          <span class="brand-sub">SmartProcure & Packer</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-tab="tab-dashboard">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="14" width="7" height="7" rx="1.5"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+          </svg>
+          <span>Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-tab="tab-knapsack">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+          <span>Budget Planner</span>
+        </button>
+
+        <button class="nav-item" data-tab="tab-packing">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+          <span>Bin Packer Visualizer</span>
+        </button>
+
+        <button class="nav-item" data-tab="tab-avl">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="5" r="3"></circle>
+            <circle cx="6" cy="19" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <path d="M12 8v4M9 14l-2 3M15 14l2 3"></path>
+          </svg>
+          <span>Catalog & AVL Tree</span>
+        </button>
+
+        <button class="nav-item" data-tab="tab-stack">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          <span>Stack Undo / Redo</span>
+        </button>
+
+        <button class="nav-item" data-tab="tab-huffman">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <span>Huffman Invoice</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar Scenario Switcher -->
+      <div class="sidebar-scenario-box">
+        <span class="scenario-label">Domain Scenario:</span>
+        <div class="scenario-toggles">
+          <button class="scenario-btn active" data-preset="TECH_FEST">🎓 College Event</button>
+          <button class="scenario-btn" data-preset="KIRANA_WHOLESALE">🛒 Kirana Mart</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ========================================================================= -->
+    <!-- MAIN APPLICATION STAGE                                                    -->
+    <!-- ========================================================================= -->
+    <div class="app-main">
+      
+      <!-- Top Navigation Header (Pure Monochrome, ONLY Functional Undo/Redo) -->
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <h1 class="topbar-title">DSA Budget & Packing Optimizer Dashboard</h1>
+        </div>
+        
+        <div class="topbar-right">
+          <!-- Functional Undo / Redo Stack Buttons -->
+          <div class="topbar-stack-actions">
+            <button id="btnQuickUndo" class="topbar-btn-icon" title="Undo Cart Action (Stack Pop)" disabled>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+              <span class="counter-badge" id="undoBadge">0</span>
+            </button>
+            <button id="btnQuickRedo" class="topbar-btn-icon" title="Redo Cart Action" disabled>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
+              <span class="counter-badge" id="redoBadge">0</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Algorithmic KPI Header Ribbon -->
+      <section class="kpi-ribbon">
+        <div class="kpi-header-label">Algorithmic KPI</div>
+        
+        <div class="kpi-cards-grid">
+          <!-- Card 1: Budget Allocation -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Budget Allocation</span>
+            </div>
+            <div class="kpi-main-val" id="kpiCartCost">₹0 / ₹10,000</div>
+            <div class="kpi-sub-text">(Knapsack 0/1 Optimized)</div>
+            <div class="kpi-progress-bar">
+              <div class="kpi-progress-fill" id="kpiBudgetProgress" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Card 2: Space Utilization -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Space Utilization</span>
+            </div>
+            <div class="kpi-main-val" id="kpiSpaceUtil">0.0% Efficiency</div>
+            <div class="kpi-sub-text" id="kpiWeightRatio">0.0 kg Total Weight</div>
+            <div class="kpi-progress-bar">
+              <div class="kpi-progress-fill" id="kpiUtilProgress" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <!-- Card 3: Bins Used -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Bins Used</span>
+            </div>
+            <div class="kpi-main-val" id="kpiCartBoxes">0 Cartons</div>
+            <div class="kpi-sub-text" id="kpiCourierCostSub">Courier: ₹0.00</div>
+            <div class="kpi-progress-bar">
+              <div class="kpi-progress-fill" id="kpiBoxesProgress" style="width: 25%"></div>
+            </div>
+          </div>
+
+          <!-- Card 4: Current Algorithms -->
+          <div class="kpi-card">
+            <div class="kpi-top">
+              <span class="kpi-title">Active Solvers</span>
+            </div>
+            <div class="kpi-main-val">0/1 Knapsack & FFD</div>
+            <div class="kpi-sub-text">AVL Tree & Huffman Active</div>
+            <div class="kpi-progress-bar">
+              <div class="kpi-progress-fill" style="width: 100%"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Scrollable Views -->
+      <main class="content-scrollable">
+
+        <!-- ===================================================================== -->
+        <!-- VIEW 1: EXECUTIVE DASHBOARD (CATALOG + CART + 3D PACKER)              -->
+        <!-- ===================================================================== -->
+        <div id="tab-dashboard" class="tab-panel active">
+          
+          <div class="dashboard-split-grid">
+            
+            <!-- LEFT COLUMN: BUDGET OPTIMIZATION (KNAPSACK / GREEDY) -->
+            <div class="dashboard-left-col">
+              
+              <section class="dash-card">
+                <div class="dash-card-header">
+                  <div>
+                    <h2 class="dash-card-title">Budget Optimization (DSA Knapsack / Greedy)</h2>
+                    <p class="dash-card-subtitle">0/1 Discrete Knapsack DP • Maximizes Resale & Utility Under Budget</p>
+                  </div>
+                  
+                  <div class="toggle-pill-group">
+                    <button class="toggle-pill" id="btnToggleGreedy">Greedy Approach</button>
+                    <button class="toggle-pill active" id="btnToggleDp">DP Approach</button>
+                  </div>
+                </div>
+
+                <!-- Financial Metric Cards (2x2 Grid) -->
+                <div class="fin-stats-grid">
+                  <div class="fin-card">
+                    <span class="fin-label">Budget Limit</span>
+                    <div class="fin-val" id="dispBudgetLimit">₹10,000</div>
+                  </div>
+                  <div class="fin-card">
+                    <span class="fin-label">Cart Expenses</span>
+                    <div class="fin-val" id="dispCartCost">₹0</div>
+                  </div>
+                  <div class="fin-card">
+                    <span class="fin-label">Priority Value</span>
+                    <div class="fin-val text-white" id="dispCartUtility">0 pts</div>
+                  </div>
+                  <div class="fin-card">
+                    <span class="fin-label">Remaining Budget</span>
+                    <div class="fin-val" id="dispRemainingBudget">₹10,000</div>
+                  </div>
+                </div>
+
+                <!-- Donut Chart & Category Breakdown -->
+                <div class="donut-section-wrapper">
+                  <div class="donut-chart-container">
+                    <svg id="categoryDonutSvg" viewBox="0 0 160 160" class="donut-svg">
+                      <circle cx="80" cy="80" r="60" fill="transparent" stroke="#1c1c1c" stroke-width="24" />
+                      <g id="donutSlicesGroup"></g>
+                      <text x="80" y="76" text-anchor="middle" class="donut-center-num" id="donutCenterCount">0</text>
+                      <text x="80" y="93" text-anchor="middle" class="donut-center-label">Items</text>
+                    </svg>
+                  </div>
+                  
+                  <div class="donut-legend" id="donutLegendContainer">
+                    <!-- Dynamic Categories Legend -->
+                  </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- AVAILABLE WAREHOUSE INVENTORY (MANUAL SELECTION)       -->
+                <!-- ======================================================= -->
+                <div class="dash-card catalog-inventory-card" style="margin-top: 1.1rem;">
+                  <div class="dash-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                    <div>
+                      <h3 class="dash-card-title">Available Warehouse Catalog (Click + Add to build custom order)</h3>
+                      <p class="dash-card-subtitle">Select individual items to add manually, or auto-optimize via Knapsack DP</p>
+                    </div>
+                    <div style="display: flex; gap: 0.4rem; align-items: center;">
+                      <span class="badge-tag-mono" id="avlNodeCountBadge">15 items available</span>
+                      <button class="btn-xs btn-stark-white" id="btnOpenAddItemModal">+ Custom Product</button>
+                    </div>
+                  </div>
+
+                  <!-- Real-time Filter & Search Bar -->
+                  <div class="inventory-filter-bar" style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 170px;">
+                      <input type="text" id="catalogSearchInput" placeholder="🔍 Search items by name, category..." class="form-input" style="padding: 0.45rem 0.75rem; font-size: 0.78rem; width: 100%;">
+                    </div>
+                    <div class="category-filter-chips" id="categoryFilterChips" style="display: flex; gap: 0.35rem; flex-wrap: wrap;">
+                      <!-- Dynamically rendered based on active catalog preset -->
+                    </div>
+                  </div>
+
+                  <!-- Available Items Grid -->
+                  <div class="catalog-list-scroll" style="max-height: 270px; overflow-y: auto; padding-right: 4px;">
+                    <div class="catalog-list" id="catalogItemsContainer">
+                      <!-- Dynamically rendered product cards -->
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ======================================================= -->
+                <!-- ACTIVE PROCUREMENT CART & ORDER MANIFEST               -->
+                <!-- ======================================================= -->
+                <div class="cart-table-card" style="margin-top: 1.1rem;">
+                  <div class="cart-table-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                      <span class="table-title">Active Procurement Cart Manifest</span>
+                      <span style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-top: 2px;">Items staged for 3D packaging &amp; dispatch</span>
+                    </div>
+                    <div class="table-actions">
+                      <button class="btn-xs btn-subtle" id="btnClearCart">Clear Cart</button>
+                    </div>
+                  </div>
+
+                  <div class="table-scroll-wrap">
+                    <table class="modern-table">
+                      <thead>
+                        <tr>
+                          <th>Item</th>
+                          <th class="text-right">Price</th>
+                          <th class="text-right">Value</th>
+                          <th class="text-right">Weight</th>
+                          <th class="text-center">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody id="cartTableBody">
+                        <!-- Dynamic Cart Rows -->
+                      </tbody>
+                    </table>
+                    <div id="cartEmptyState" class="empty-state-card" style="display: none;">
+                      <p>Your procurement cart is empty. Click <strong>+ Add to Cart</strong> on any item above or <strong>Auto-Maximize Cart</strong> below to add items.</p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Knapsack Action Trigger -->
+                <div class="knapsack-trigger-bar">
+                  <div class="budget-input-inline">
+                    <label for="budgetInput">Spending Budget (₹):</label>
+                    <input type="number" id="budgetInput" value="10000" min="100" max="100000" step="500" class="input-budget-field">
+                  </div>
+                  <button class="btn-stark-white" id="btnRunKnapsack">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                    Auto-Maximize Cart (0/1 Knapsack)
+                  </button>
+                </div>
+
+                <!-- Insight Alert -->
+                <div class="opt-insight-pill" id="optInsightBanner" style="display: none;">
+                  <span class="opt-insight-icon">💡</span>
+                  <span class="opt-insight-text" id="optInsightText"></span>
+                </div>
+
+              </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN: 3D WIREFRAME BIN PACKING VISUALIZER -->
+            <div class="dashboard-right-col">
+              
+              <section class="dash-card sticky-packer-card">
+                <div class="dash-card-header">
+                  <div>
+                    <h2 class="dash-card-title">Algorithmic Bin Packing Visualizer</h2>
+                    <p class="dash-card-subtitle">3D Warehouse Cartons (Capacity: <span id="dispBoxCapTag">10.0 kg</span> • Minimizes Courier Fee)</p>
+                  </div>
+                  
+                  <div class="packer-meta-stats">
+                    <span class="badge-tag-mono" id="packerBoxCountBadge">0 Dispatched</span>
+                    <span class="badge-tag-mono" id="packerCourierCostBadge">Courier: ₹0.00</span>
+                  </div>
+                </div>
+
+                <!-- 3D Wireframe Glass Bins Display Stage -->
+                <div class="bins-wireframe-stage" id="binsWireframeStage">
+                  <!-- Wireframe cartons rendered dynamically here -->
+                </div>
+
+                <!-- Item Queue / Unpacked Staging Area -->
+                <div class="queue-section">
+                  <div class="queue-title-row">
+                    <span class="queue-label">Item Queue & Staging (Unpacked Items):</span>
+                    <span class="queue-count" id="unpackedItemsCount">0 pending</span>
+                  </div>
+                  
+                  <div class="item-queue-container" id="itemQueueContainer">
+                    <!-- Dimensional blocks waiting to be packed -->
+                  </div>
+                </div>
+
+                <!-- Simulation & Controls -->
+                <div class="simulation-controls-card">
+                  <div class="controls-row">
+                    <div class="control-group">
+                      <label class="ctrl-label">Algorithm:</label>
+                      <select id="packerAlgoSelect" class="select-dropdown">
+                        <option value="FFD" selected>First-Fit Decreasing (FFD)</option>
+                        <option value="BFD">Best-Fit Decreasing (BFD)</option>
+                        <option value="WFD">Worst-Fit Decreasing (WFD)</option>
+                        <option value="NF">Next-Fit (Naive / Online)</option>
+                      </select>
+                    </div>
+
+                    <div class="control-group">
+                      <label class="ctrl-label">Box Capacity:</label>
+                      <select id="boxCapacitySelect" class="select-dropdown">
+                        <option value="5.0">5 kg (Small Carton)</option>
+                        <option value="10.0" selected>10 kg (Standard Carton)</option>
+                        <option value="15.0">15 kg (Heavy Duty)</option>
+                        <option value="20.0">20 kg (Bulk Freight)</option>
+                      </select>
+                    </div>
+
+                    <div class="control-group flex-1">
+                      <div class="speed-header">
+                        <label class="ctrl-label">Animation Speed:</label>
+                        <span class="speed-val" id="speedLabel">Normal</span>
+                      </div>
+                      <input type="range" id="simSpeedSlider" min="100" max="1500" step="100" value="500" class="speed-slider">
+                    </div>
+                  </div>
+
+                  <!-- Playback Action Buttons -->
+                  <div class="playback-buttons-row">
+                    <button class="btn-stark-white" id="btnPlayVisualizer">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                      Run Visualizer
+                    </button>
+                    <button class="btn-secondary" id="btnStepVisualizer">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></svg>
+                      Step Forward
+                    </button>
+                    <button class="btn-secondary" id="btnResetVisualizer">
+                      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+                      Reset
+                    </button>
+                    <button class="btn-stark-white ml-auto" id="btnProceedCheckout">
+                      Finalize Order &rarr;
+                    </button>
+                  </div>
+                </div>
+
+              </section>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- VIEW 2: 0/1 KNAPSACK DP DEEP DIVE                                     -->
+        <!-- ===================================================================== -->
+        <div id="tab-knapsack" class="tab-panel">
+          <div class="panel-inner-container">
+            <div class="panel-hero">
+              <span class="hero-badge">Dynamic Programming • Budget Optimization</span>
+              <h2>0/1 Knapsack Problem: Optimal Budget Maximizer</h2>
+              <p>
+                Maximizes total utility score \(\sum v_i x_i\) subject to cash budget constraint \(\sum c_i x_i \le B\) where \(x_i \in \{0, 1\}\).
+                Discrete procurement requires 2D Dynamic Programming to achieve global optimality where greedy heuristics fail.
+              </p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="knapsack-stats-grid">
+              <div class="stat-box">
+                <span class="stat-box-title">DP Optimal Utility</span>
+                <span class="stat-box-num" id="ksDpUtility">0 pts</span>
+                <span class="stat-box-sub" id="ksDpCost">Total Spend: ₹0.00</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">Greedy Heuristic Utility</span>
+                <span class="stat-box-num text-muted" id="ksGreedyUtility">0 pts</span>
+                <span class="stat-box-sub" id="ksGreedyCost">Total Spend: ₹0.00</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">Optimality Gap (DP vs Greedy)</span>
+                <span class="stat-box-num" id="ksOptimalityGap">+0 pts</span>
+                <span class="stat-box-sub">Proves 0/1 DP Superiority</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-box-title">Algorithm Runtime</span>
+                <span class="stat-box-num" id="ksRuntime">0.00 ms</span>
+                <span class="stat-box-sub">Time: \(O(N \cdot B)\)</span>
+              </div>
+            </div>
+
+            <!-- Proof Callout -->
+            <div class="alert-proof" id="ksExplanationAlert">
+              <strong>Mathematical Verification:</strong> <span id="ksExplanationText">Run the knapsack solver to compare DP vs Greedy ratio.</span>
+            </div>
+
+            <!-- DP State Table Snapshot -->
+            <div class="dash-card mt-4">
+              <div class="dash-card-header">
+                <div>
+                  <h3 class="dash-card-title">Dynamic Programming Decision Matrix (Sample Intervals)</h3>
+                  <p class="dash-card-subtitle">Recurrence: \(dp[i][w] = \max(dp[i-1][w], dp[i-1][w - c_i] + v_i)\)</p>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="dp-matrix-table" id="dpMatrixTable">
+                  <thead>
+                    <tr>
+                      <th>Candidate Item</th>
+                      <th>Cost \(c_i\)</th>
+                      <th>Utility \(v_i\)</th>
+                      <th>\(w = 0\%\)</th>
+                      <th>\(w = 20\%\)</th>
+                      <th>\(w = 40\%\)</th>
+                      <th>\(w = 60\%\)</th>
+                      <th>\(w = 80\%\)</th>
+                      <th>\(w = 100\%\) Budget</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dpMatrixBody">
+                    <!-- DP table rows rendered here -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Dual Chosen Items Comparison -->
+            <div class="comparison-dual-grid mt-4">
+              <div class="dash-card">
+                <h3 class="dash-card-title text-white">✓ Items Selected by 0/1 Knapsack DP (Optimal)</h3>
+                <div class="item-tags-list" id="ksDpItemsList"></div>
+              </div>
+              <div class="dash-card">
+                <h3 class="dash-card-title text-muted">✗ Items Selected by Greedy Heuristic (Suboptimal)</h3>
+                <div class="item-tags-list" id="ksGreedyItemsList"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- VIEW 3: BIN PACKING COMPARISON BENCHMARK                              -->
+        <!-- ===================================================================== -->
+        <div id="tab-packing" class="tab-panel">
+          <div class="panel-inner-container">
+            <div class="panel-hero">
+              <span class="hero-badge">Approximation Algorithm • Warehouse Carton Minimizer</span>
+              <h2>Warehouse Carton Bin Packing: Courier Charge Minimizer</h2>
+              <p>
+                Partitions items of varying weights into standard cartons (\(\le 10\) kg) to directly reduce courier bills.
+                Compares First Fit Decreasing against Best Fit, Worst Fit, and Naive Next Fit.
+              </p>
+            </div>
+
+            <!-- Comparison Cards of 4 Algorithms -->
+            <div class="algorithms-grid">
+              
+              <div class="algo-card active-winner" id="algoCardFfd">
+                <div class="algo-badge winner-badge">RECOMMENDED (OFFLINE)</div>
+                <h3 class="algo-title">First Fit Decreasing (FFD)</h3>
+                <div class="algo-metric">
+                  <span class="algo-metric-num" id="ffdBoxCount">0</span>
+                  <span class="algo-metric-unit">Cartons</span>
+                </div>
+                <div class="algo-meta">
+                  <span>Avg Utilization: <strong id="ffdUtil">0%</strong></span>
+                  <span>Courier Cost: <strong id="ffdCost">₹0</strong></span>
+                </div>
+                <p class="algo-desc">Sorts weights descending, scans from first bin. Proven bound \(\le \frac{11}{9}\text{OPT} + \frac{6}{9}\).</p>
+              </div>
+
+              <div class="algo-card" id="algoCardBfd">
+                <div class="algo-badge">TIGHTEST FIT</div>
+                <h3 class="algo-title">Best Fit Decreasing (BFD)</h3>
+                <div class="algo-metric">
+                  <span class="algo-metric-num" id="bfdBoxCount">0</span>
+                  <span class="algo-metric-unit">Cartons</span>
+                </div>
+                <div class="algo-meta">
+                  <span>Avg Utilization: <strong id="bfdUtil">0%</strong></span>
+                  <span>Courier Cost: <strong id="bfdCost">₹0</strong></span>
+                </div>
+                <p class="algo-desc">Places item in the bin leaving minimum remaining capacity. Tightest packing.</p>
+              </div>
+
+              <div class="algo-card" id="algoCardWfd">
+                <div class="algo-badge">BALANCED LOAD</div>
+                <h3 class="algo-title">Worst Fit Decreasing (WFD)</h3>
+                <div class="algo-metric">
+                  <span class="algo-metric-num" id="wfdBoxCount">0</span>
+                  <span class="algo-metric-unit">Cartons</span>
+                </div>
+                <div class="algo-meta">
+                  <span>Avg Utilization: <strong id="wfdUtil">0%</strong></span>
+                  <span>Courier Cost: <strong id="wfdCost">₹0</strong></span>
+                </div>
+                <p class="algo-desc">Places item into bin with largest remaining capacity. Useful for weight distribution.</p>
+              </div>
+
+              <div class="algo-card naive-card" id="algoCardNf">
+                <div class="algo-badge naive-badge">NAIVE / ONLINE</div>
+                <h3 class="algo-title">Next Fit (NF)</h3>
+                <div class="algo-metric">
+                  <span class="algo-metric-num" id="nfBoxCount">0</span>
+                  <span class="algo-metric-unit">Cartons</span>
+                </div>
+                <div class="algo-meta">
+                  <span>Avg Utilization: <strong id="nfUtil">0%</strong></span>
+                  <span>Courier Cost: <strong id="nfCost">₹0</strong></span>
+                </div>
+                <p class="algo-desc">Never reopens closed bins. Competitive ratio \(2 \cdot \text{OPT}\). Demonstrates wasted shipping fees.</p>
+              </div>
+
+            </div>
+
+            <!-- Savings Callout -->
+            <div class="savings-callout" id="packingSavingsCallout">
+              <span class="savings-icon">💰</span>
+              <span class="savings-text" id="packingSavingsText">FFD saves courier charges compared to naive next fit packing.</span>
+            </div>
+
+            <!-- Visual Packing Boxes Detailed View -->
+            <div class="dash-card mt-4">
+              <div class="dash-card-header">
+                <h3 class="dash-card-title">Optimal Dispatched Carton Breakdown (FFD)</h3>
+              </div>
+              <div class="boxes-detailed-grid" id="boxesDetailedGrid"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- VIEW 4: CATALOG & AVL TREE                                            -->
+        <!-- ===================================================================== -->
+        <div id="tab-avl" class="tab-panel">
+          <div class="panel-inner-container">
+            <div class="panel-hero">
+              <span class="hero-badge">Self-Balancing Binary Search Tree</span>
+              <h2>Product Catalog AVL Tree Architecture</h2>
+              <p>
+                The inventory catalog is stored in an AVL Tree keyed by Price.
+                Maintains balance factor \(|h_L - h_R| \le 1\) through LL, RR, LR, and RL rotations, guaranteeing \(O(\log N)\) search and \(O(K + \log N)\) price-range filtering.
+              </p>
+            </div>
+
+            <div class="avl-dashboard-layout">
+              <div class="dash-card avl-tree-card">
+                <div class="tree-controls-bar">
+                  <div class="tree-metrics">
+                    <span class="tree-stat">Nodes: <strong id="avlTotalNodes">12</strong></span>
+                    <span class="tree-stat">Tree Height: <strong id="avlHeight">4</strong></span>
+                    <span class="tree-stat">Balance: <strong class="text-white">Strictly Balanced</strong></span>
+                  </div>
+                  <div class="tree-legend">
+                    <span class="legend-item"><span class="legend-dot root-dot"></span> Root Node</span>
+                    <span class="legend-item"><span class="legend-dot in-range-dot"></span> In Price Range</span>
+                    <span class="legend-item"><span class="legend-dot leaf-dot"></span> Leaf Node</span>
+                  </div>
+                </div>
+
+                <div class="avl-canvas-container" id="avlTreeCanvasContainer">
+                  <div id="avlTreeGraph" class="tree-graph"></div>
+                </div>
+              </div>
+
+              <!-- AVL Operations -->
+              <div class="dash-card avl-ops-card">
+                <h3 class="ops-title">AVL Range Search Demonstration</h3>
+                <p class="ops-subtitle">Prunes subtrees outside the query boundaries:</p>
+
+                <div class="form-group">
+                  <label class="form-label">Min Price (₹):</label>
+                  <input type="number" id="avlRangeMin" value="500" step="100" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Max Price (₹):</label>
+                  <input type="number" id="avlRangeMax" value="3000" step="100" class="form-input">
+                </div>
+                <button class="btn-stark-white btn-block" id="btnExecuteRangeSearch">Run Pruned In-Order Range Search</button>
+
+                <div class="range-results-box" id="rangeResultsBox">
+                  <span class="results-header">Matching Items in Range:</span>
+                  <ul class="range-items-list" id="rangeResultsList"></ul>
+                </div>
+
+                <hr class="divider">
+
+                <h3 class="ops-title">Insert Custom Item (Test Dynamic Rebalancing)</h3>
+                <form id="formInsertAvlItem">
+                  <div class="form-group">
+                    <label class="form-label">Item Name:</label>
+                    <input type="text" id="avlItemName" required placeholder="e.g. Ultra Fast Drone" class="form-input">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label">Price (₹):</label>
+                      <input type="number" id="avlItemPrice" required value="4500" class="form-input">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Utility (pts):</label>
+                      <input type="number" id="avlItemUtility" required value="85" class="form-input">
+                    </div>
+                    <div class="form-group">
+                      <label class="form-label">Weight (kg):</label>
+                      <input type="number" id="avlItemWeight" required value="2.2" step="0.1" class="form-input">
+                    </div>
+                  </div>
+                  <button type="submit" class="btn-secondary btn-block">+ Insert into AVL Tree</button>
+                </form>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- VIEW 5: STACK UNDO / REDO INSPECTOR                                   -->
+        <!-- ===================================================================== -->
+        <div id="tab-stack" class="tab-panel">
+          <div class="panel-inner-container">
+            <div class="panel-hero">
+              <span class="hero-badge">Abstract Data Type • Transaction Stack</span>
+              <h2>Stack ADT Cart History: Undo & Redo Architecture</h2>
+              <p>
+                Implements the Stack (Last-In, First-Out / LIFO) data structure to manage cart modifications.
+                Every mutation pushes a discrete transaction onto the Undo Stack. Popping reverses the action and pushes to the Redo Stack.
+              </p>
+            </div>
+
+            <!-- Stack Controls -->
+            <div class="stack-control-bar">
+              <button class="btn-stark-white" id="btnInspectUndo" disabled>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>
+                POP Undo Stack (Undo Action)
+              </button>
+              <button class="btn-secondary" id="btnInspectRedo" disabled>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 14 5-5-5-5"/><path d="M20 9H9.5A5.5 5.5 0 0 0 4 14.5v0A5.5 5.5 0 0 0 9.5 20H13"/></svg>
+                POP Redo Stack (Redo Action)
+              </button>
+              <div class="stack-pointer-indicators">
+                <span class="pointer-pill">Undo Stack Depth: <strong id="undoStackDepth">0</strong></span>
+                <span class="pointer-pill">Redo Stack Depth: <strong id="redoStackDepth">0</strong></span>
+              </div>
+            </div>
+
+            <!-- Dual Stack Visualizer -->
+            <div class="dual-stack-container">
+              
+              <!-- Undo Stack Column -->
+              <div class="dash-card stack-column">
+                <div class="stack-col-header">
+                  <h3 class="stack-col-title">Undo Stack (LIFO)</h3>
+                  <span class="tos-label">Top of Stack (TOS) &darr;</span>
+                </div>
+                <div class="stack-elements-wrapper" id="undoStackList">
+                  <div class="stack-empty-msg">Undo Stack is empty. Mutate the cart to push actions.</div>
+                </div>
+              </div>
+
+              <!-- Redo Stack Column -->
+              <div class="dash-card stack-column">
+                <div class="stack-col-header">
+                  <h3 class="stack-col-title">Redo Stack (LIFO)</h3>
+                  <span class="tos-label">Top of Stack (TOS) &darr;</span>
+                </div>
+                <div class="stack-elements-wrapper" id="redoStackList">
+                  <div class="stack-empty-msg">Redo Stack is empty. Undo an action to push here.</div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ===================================================================== -->
+        <!-- VIEW 6: HUFFMAN INVOICE COMPRESSION                                   -->
+        <!-- ===================================================================== -->
+        <div id="tab-huffman" class="tab-panel">
+          <div class="panel-inner-container">
+            <div class="panel-hero">
+              <span class="hero-badge">Greedy Lossless Compression • Huffman Coding</span>
+              <h2>Digital Invoice Generation & Huffman Coding</h2>
+              <p>
+                Generates the finalized procurement invoice text and compresses it using the Huffman Coding algorithm.
+                A Min-Priority Queue builds the optimal prefix tree, assigning shorter variable-length bit codes to frequent characters.
+              </p>
+            </div>
+
+            <!-- Checkout Form -->
+            <div class="dash-card checkout-meta-card">
+              <div class="form-row">
+                <div class="form-group flex-1">
+                  <label class="form-label">Client / Buyer Name:</label>
+                  <input type="text" id="checkoutCustomerName" value="Harsh (College Event Organizer)" class="form-input">
+                </div>
+                <div class="form-group flex-1">
+                  <label class="form-label">Organization / Event:</label>
+                  <input type="text" id="checkoutOrgName" value="Apex Tech Innovation Fest 2026" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">&nbsp;</label>
+                  <button class="btn-stark-white" id="btnGenerateInvoiceNow">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Generate & Compress Invoice
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Compression Metrics Banner -->
+            <div class="compression-metrics-banner">
+              <div class="comp-metric-card">
+                <span class="comp-metric-label">Original Uncompressed</span>
+                <span class="comp-metric-value" id="compOriginalBits">0 bits</span>
+                <span class="comp-metric-sub" id="compOriginalBytes">(0 bytes ASCII)</span>
+              </div>
+              <div class="comp-metric-card">
+                <span class="comp-metric-label">Huffman Encoded Stream</span>
+                <span class="comp-metric-value text-white" id="compEncodedBits">0 bits</span>
+                <span class="comp-metric-sub" id="compEncodedBytes">(0 bytes payload)</span>
+              </div>
+              <div class="comp-metric-card">
+                <span class="comp-metric-label">Space Savings Ratio</span>
+                <span class="comp-metric-value" id="compRatio">0.0%</span>
+                <span class="comp-metric-sub" id="compBitsPerChar">0.0 bits/char</span>
+              </div>
+              <div class="comp-metric-card">
+                <span class="comp-metric-label">Lossless Decompression</span>
+                <span class="comp-metric-value text-white" id="compLosslessBadge">Verified 100%</span>
+                <span class="comp-metric-sub">Bit-for-bit exact recovery</span>
+              </div>
+            </div>
+
+            <!-- Side-by-Side Invoice & Bitstream -->
+            <div class="invoice-dual-layout">
+              <div class="dash-card invoice-view-card">
+                <div class="dash-card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+                  <h3 class="dash-card-title">Generated Raw Order Invoice</h3>
+                  <div style="display: flex; gap: 0.35rem; align-items: center;">
+                    <button class="btn-xs btn-subtle" id="btnCopyInvoice">Copy Text</button>
+                    <button class="btn-xs btn-stark-white" id="btnPrintInvoicePdf">🖨️ Print / PDF</button>
+                    <button class="btn-xs btn-secondary" id="btnExportInvoiceWord">📄 Word (.doc)</button>
+                  </div>
+                </div>
+                <pre class="terminal-text" id="rawInvoiceDisplay">Loading invoice...</pre>
+              </div>
+
+              <div class="dash-card bitstream-card">
+                <div class="dash-card-header">
+                  <h3 class="dash-card-title">Compressed Huffman Bitstream</h3>
+                  <span class="bit-length-badge" id="bitLengthBadge">0 bits</span>
+                </div>
+                <div class="bitstream-scroll" id="encodedBitstreamDisplay">01010101...</div>
+                
+                <div class="mt-3">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; gap: 0.5rem;">
+                    <h4 class="sub-header-title" style="margin: 0;">Lossless Decompressed Output:</h4>
+                    <div style="display: flex; gap: 0.35rem; align-items: center;">
+                      <button class="btn-xs btn-stark-white" id="btnPrintDecompressedPdf">🖨️ Print Bill (PDF)</button>
+                      <button class="btn-xs btn-secondary" id="btnExportDecompressedWord">📄 Export Word (.doc)</button>
+                    </div>
+                  </div>
+                  <pre class="terminal-text terminal-compact" id="decompressedTextDisplay">Decompressed text will appear here...</pre>
+                </div>
+              </div>
+            </div>
+
+            <!-- Prefix Code Dictionary -->
+            <div class="dash-card mt-4">
+              <div class="dash-card-header">
+                <h3 class="dash-card-title">Huffman Prefix Code Dictionary (Optimal Variable-Length Codes)</h3>
+                <p class="dash-card-subtitle">Frequent symbols receive fewer bits to minimize \(\sum \text{freq}_i \cdot \text{len}_i\)</p>
+              </div>
+              <div class="table-responsive">
+                <table class="modern-table code-table">
+                  <thead>
+                    <tr>
+                      <th>Character Symbol</th>
+                      <th>Frequency (Count)</th>
+                      <th>Assigned Huffman Code</th>
+                      <th>Bit Length</th>
+                      <th>Fixed ASCII vs Variable</th>
+                    </tr>
+                  </thead>
+                  <tbody id="huffmanCodeTableBody">
+                    <!-- Dynamic code rows -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Interactive Sandbox -->
+            <div class="dash-card mt-4">
+              <div class="dash-card-header">
+                <h3 class="dash-card-title">Interactive Huffman Sandbox</h3>
+                <p class="dash-card-subtitle">Type any custom string or message to test real-time prefix coding:</p>
+              </div>
+              <div class="sandbox-group">
+                <textarea id="customCompressInput" rows="3" class="form-textarea" placeholder="Type custom text here to compress with Huffman Coding...">Pack and Plan: Smart Procurement Budgeter and Warehouse Carton Packer!</textarea>
+                <button class="btn-stark-white mt-2" id="btnCompressCustomText">Compress Custom Text</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+
+      <!-- ========================================================================= -->
+      <!-- BOTTOM ALGORITHMIC COMPLEXITY & LIVE CONSOLE                              -->
+      <!-- ========================================================================= -->
+      <footer class="app-terminal-footer">
+        <div class="terminal-status-bar" id="terminalToggleBtn">
+          <div class="complexity-metrics">
+            <span class="complexity-pill">Time Complexity: <strong>O(N log N)</strong></span>
+            <span class="complexity-pill">Space Complexity: <strong>O(N)</strong></span>
+          </div>
+          <div class="terminal-toggle-label">
+            <span>Console Log (Live Algorithmic Trace)</span>
+            <span class="toggle-arrow" id="terminalArrow">&#9650;</span>
+          </div>
+        </div>
+        
+        <div class="terminal-body collapsed" id="terminalLogBody">
+          <div class="log-line text-muted">[System Ready] Embedded Native Server connected at http://localhost:8080</div>
+          <div class="log-line text-white">[Catalog AVL] Indexed items successfully. Tree Height: 4. Invariant |BF| &le; 1 verified.</div>
+          <div class="log-line text-muted">[0/1 Knapsack] DP solver initialized. Recurrence dp[i][w] = max(dp[i-1][w], dp[i-1][w-c]+v).</div>
+          <div class="log-line text-muted">[Bin Packer] First-Fit Decreasing heuristic loaded with capacity 10.0 kg/carton.</div>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+
+  <!-- Add Item Modal -->
+  <div class="modal-overlay" id="modalAddItem">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3>Add New Item to Catalog (AVL Tree)</h3>
+        <button class="modal-close" id="btnCloseModal">&times;</button>
+      </div>
+      <form id="formAddCatalogItem">
+        <div class="form-group">
+          <label class="form-label">Item Name</label>
+          <input type="text" id="modalItemName" required placeholder="e.g. Wireless Router 1200Mbps" class="form-input">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Category</label>
+          <input type="text" id="modalItemCategory" required placeholder="e.g. Networking" class="form-input">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Price (₹)</label>
+            <input type="number" id="modalItemPrice" required value="1250" min="1" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Utility (pts)</label>
+            <input type="number" id="modalItemUtility" required value="80" min="1" max="100" class="form-input">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Weight (kg)</label>
+            <input type="number" id="modalItemWeight" required value="1.5" min="0.1" step="0.1" class="form-input">
+          </div>
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 0.6rem; margin-top: 0.75rem; background: #141414; padding: 8px 10px; border-radius: 4px; border: 1px solid var(--border-subtle);">
+          <input type="checkbox" id="modalAutoAddToCart" checked style="accent-color: #fff; width: 16px; height: 16px; cursor: pointer;">
+          <label for="modalAutoAddToCart" class="form-label" style="margin-bottom: 0; cursor: pointer; color: #fff;">Also immediately add this custom product to Current Cart & 3D Packing</label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" id="btnCancelModal">Cancel</button>
+          <button type="submit" class="btn-stark-white">+ Create Custom Product</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
