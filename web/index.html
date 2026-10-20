@@ -8,6 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script>
+    (function() {
+      try {
+        var savedTheme = localStorage.getItem('packplan_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body class="app-body">
 
@@ -114,6 +122,40 @@
         </div>
         
         <div class="topbar-right">
+          <!-- Day/Night Animated Theme Toggle Button -->
+          <button id="themeToggleBtn" class="theme-toggle-btn" type="button" role="switch" aria-checked="false" aria-label="Toggle Day and Night Theme" title="Switch to Day Theme">
+            <span class="theme-toggle-track">
+              <!-- Day Sky (Fluffy Floating Clouds) -->
+              <span class="theme-sky-day">
+                <svg class="theme-cloud cloud-1" viewBox="0 0 32 20" fill="none">
+                  <path d="M8 17h16a5 5 0 0 0 1-9.9 6.5 6.5 0 0 0-12.5-1.6A5 5 0 0 0 8 17z" fill="#ffffff" fill-opacity="0.95"/>
+                </svg>
+                <svg class="theme-cloud cloud-2" viewBox="0 0 24 16" fill="none">
+                  <path d="M5 14h14a4 4 0 0 0 1-7.8 5 5 0 0 0-9.5-1.2A4 4 0 0 0 5 14z" fill="#ffffff" fill-opacity="0.85"/>
+                </svg>
+              </span>
+
+              <!-- Night Sky (Twinkling Stars) -->
+              <span class="theme-sky-night">
+                <span class="theme-star star-1"></span>
+                <span class="theme-star star-2"></span>
+                <span class="theme-star star-3"></span>
+                <span class="theme-star star-4"></span>
+              </span>
+
+              <!-- Celestial Thumb: Sun in Day / Moon in Night -->
+              <span class="theme-toggle-thumb">
+                <span class="celestial-orb">
+                  <!-- Sun Radiant Aura Ring -->
+                  <span class="sun-aura"></span>
+                  <!-- Moon Craters -->
+                  <span class="moon-crater crater-1"></span>
+                  <span class="moon-crater crater-2"></span>
+                  <span class="moon-crater crater-3"></span>
+                </span>
+              </span>
+            </span>
+          </button>
           <!-- Functional Undo / Redo Stack Buttons -->
           <div class="topbar-stack-actions">
             <button id="btnQuickUndo" class="topbar-btn-icon" title="Undo Cart Action (Stack Pop)" disabled>

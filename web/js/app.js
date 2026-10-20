@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     kpiCartBoxes: document.getElementById('kpiCartBoxes'),
     kpiBoxesProgress: document.getElementById('kpiBoxesProgress'),
     kpiCourierCostSub: document.getElementById('kpiCourierCostSub'),
+    themeToggleBtn: document.getElementById('themeToggleBtn'),
     btnQuickUndo: document.getElementById('btnQuickUndo'),
     btnQuickRedo: document.getElementById('btnQuickRedo'),
     undoBadge: document.getElementById('undoBadge'),
@@ -204,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
 
   function init() {
+    setupThemeToggle();
     setupSidebarNavigation();
     setupScenarioSwitching();
     setupCatalogFilter();
@@ -219,9 +221,58 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchInitialData();
   }
 
-  // ------------------------------------------
+
+
+  // Day / Night Theme Toggle Controller
+
+  function setupThemeToggle() {
+    const savedTheme = localStorage.getItem('packplan_theme') || 'dark';
+    applyTheme(savedTheme, false);
+
+    if (el.themeToggleBtn) {
+      el.themeToggleBtn.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(nextTheme, true);
+      });
+
+      el.themeToggleBtn.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          el.themeToggleBtn.click();
+        }
+      });
+    }
+  }
+
+  function applyTheme(theme, logChange = true) {
+    const isLight = theme === 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+    document.body.classList.toggle('light-theme', isLight);
+    try {
+      localStorage.setItem('packplan_theme', theme);
+    } catch (e) {}
+
+    if (el.themeToggleBtn) {
+      el.themeToggleBtn.setAttribute('aria-checked', isLight ? 'true' : 'false');
+      el.themeToggleBtn.setAttribute('title', isLight ? 'Switch to Night Theme (Dark)' : 'Switch to Day Theme (Light)');
+      el.themeToggleBtn.classList.toggle('is-day', isLight);
+      el.themeToggleBtn.classList.toggle('is-night', !isLight);
+    }
+
+    if (logChange) {
+      addLog(`[Theme] Switched to ${isLight ? 'Day Theme (Light)' : 'Night Theme (Dark)'}`, isLight ? 'amber' : 'blue');
+    }
+
+    // Refresh dynamic AVL tree if active so nodes match theme
+    if (state.activeTab === 'tab-avl') {
+      fetchAndRenderAvlTree();
+    }
+  }
+
+
   // Sidebar Navigation Tabs
-  // ------------------------------------------
+
   function setupSidebarNavigation() {
     el.navItems.forEach(item => {
       item.addEventListener('click', () => {
@@ -256,9 +307,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------
+
   // Domain Scenario Switcher
-  // ------------------------------------------
+
   function setupScenarioSwitching() {
     el.scenarioBtns.forEach(btn => {
       btn.addEventListener('click', async () => {
@@ -297,9 +348,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ------------------------------------------
+
   // Catalog Filter, Instant Search & Dynamic Category Chips
-  // ------------------------------------------
+
   function renderCategoryChips() {
     if (!el.categoryFilterChips) return;
     const uniqueCats = ['ALL'];
@@ -393,9 +444,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------
+
   // Cart Actions & Undo/Redo
-  // ------------------------------------------
+
   function setupCartActions() {
     el.btnClearCart.addEventListener('click', async () => {
       await apiPost('/api/cart/clear', {});
@@ -424,9 +475,9 @@ document.addEventListener('DOMContentLoaded', () => {
     el.btnInspectRedo.addEventListener('click', doRedo);
   }
 
-  // ------------------------------------------
+
   // Knapsack Optimizer Trigger
-  // ------------------------------------------
+
   function setupKnapsackTrigger() {
     el.btnRunKnapsack.addEventListener('click', async () => {
       const budget = parseFloat(el.budgetInput.value) || 10000;
@@ -469,9 +520,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ------------------------------------------
+
   // 3D Wireframe Bin Packing Simulation Controls
-  // ------------------------------------------
+
   function setupSimulationControls() {
     // Algorithm dropdown
     el.packerAlgoSelect.addEventListener('change', (e) => {
@@ -518,16 +569,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ------------------------------------------
+
   // Stack Inspector Controls
-  // ------------------------------------------
+
   function setupStackInspector() {
     // Buttons hooked in setupCartActions
   }
 
-  // ------------------------------------------
+
   // Huffman Controls
-  // ------------------------------------------
+
   function setupHuffmanControls() {
     if (el.btnGenerateInvoiceNow) {
       el.btnGenerateInvoiceNow.addEventListener('click', triggerCheckout);
@@ -590,9 +641,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------
+
   // Bottom Terminal Console
-  // ------------------------------------------
+
   function setupTerminalLogger() {
     el.terminalToggleBtn.addEventListener('click', () => {
       const isCollapsed = el.terminalLogBody.classList.contains('collapsed');
@@ -616,9 +667,9 @@ document.addEventListener('DOMContentLoaded', () => {
     el.terminalLogBody.scrollTop = el.terminalLogBody.scrollHeight;
   }
 
-  // ------------------------------------------
+
   // Add Item Modal
-  // ------------------------------------------
+
   function setupModal() {
     const openModal = () => { if (el.modalAddItem) el.modalAddItem.style.display = 'flex'; };
     const closeModal = () => { if (el.modalAddItem) el.modalAddItem.style.display = 'none'; };
@@ -1116,7 +1167,7 @@ document.addEventListener('DOMContentLoaded', () => {
       legendChip.className = 'legend-chip';
       legendChip.innerHTML = `
         <span class="legend-color-dot" style="background: ${color}"></span>
-        <span>${cat} <strong style="color: #fff">(${Math.round(pct * 100)}%)</strong></span>
+        <span>${cat} <strong style="color: var(--text-white)">(${Math.round(pct * 100)}%)</strong></span>
       `;
       el.donutLegendContainer.appendChild(legendChip);
     });
@@ -1380,9 +1431,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // ------------------------------------------
+
   // SVG AVL Tree Visualizer
-  // ------------------------------------------
+
   async function fetchAndRenderAvlTree() {
     try {
       const res = await apiGet('/api/catalog/tree');
@@ -1446,7 +1497,8 @@ document.addEventListener('DOMContentLoaded', () => {
       line.setAttribute('y1', e.y1);
       line.setAttribute('x2', e.x2);
       line.setAttribute('y2', e.y2);
-      line.setAttribute('stroke', '#282828');
+      const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+      line.setAttribute('stroke', isLight ? '#cbd5e1' : '#282828');
       line.setAttribute('stroke-width', '1.5');
       svg.appendChild(line);
     });
@@ -1468,8 +1520,10 @@ document.addEventListener('DOMContentLoaded', () => {
       circle.setAttribute('cy', n.y);
       circle.setAttribute('r', '22');
       circle.setAttribute('class', 'tree-node-circle');
-      circle.setAttribute('fill', idx === 0 ? '#ffffff' : '#141414');
-      circle.setAttribute('stroke', idx === 0 ? '#ffffff' : '#2e2e2e');
+      const isLightNode = document.documentElement.getAttribute('data-theme') === 'light';
+      circle.setAttribute('fill', idx === 0 ? (isLightNode ? '#0f172a' : '#ffffff') : (isLightNode ? '#ffffff' : '#141414'));
+      circle.setAttribute('stroke', idx === 0 ? (isLightNode ? '#0f172a' : '#ffffff') : (isLightNode ? '#cbd5e1' : '#2e2e2e'));
+
       circle.setAttribute('stroke-width', '1.5');
       circle.setAttribute('data-price', n.node.price);
 
@@ -1480,7 +1534,7 @@ document.addEventListener('DOMContentLoaded', () => {
       textPrice.setAttribute('font-family', 'JetBrains Mono, monospace');
       textPrice.setAttribute('font-size', '10px');
       textPrice.setAttribute('font-weight', '700');
-      textPrice.setAttribute('fill', idx === 0 ? '#000000' : '#ffffff');
+      textPrice.setAttribute('fill', idx === 0 ? (isLightNode ? '#ffffff' : '#000000') : (isLightNode ? '#0f172a' : '#ffffff'));
       textPrice.textContent = `₹${Math.round(n.node.price)}`;
 
       const textName = document.createElementNS(svgNS, 'text');
@@ -1488,7 +1542,7 @@ document.addEventListener('DOMContentLoaded', () => {
       textName.setAttribute('y', n.y + 12);
       textName.setAttribute('text-anchor', 'middle');
       textName.setAttribute('font-size', '8px');
-      textName.setAttribute('fill', idx === 0 ? '#333333' : '#888888');
+      textName.setAttribute('fill', idx === 0 ? (isLightNode ? '#cbd5e1' : '#333333') : (isLightNode ? '#64748b' : '#888888'));
       const itemTitle = n.node.name || '';
       textName.textContent = itemTitle.length > 8 ? itemTitle.substring(0, 7) + '..' : itemTitle;
 
@@ -1515,6 +1569,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function highlightAvlTreeRange(minP, maxP) {
     if (!el.avlTreeGraph) return;
     const groups = el.avlTreeGraph.querySelectorAll('.tree-node-group');
+    const isLightH = document.documentElement.getAttribute('data-theme') === 'light';
     groups.forEach(g => {
       const circle = g.querySelector('.tree-node-circle');
       const textPrice = g.querySelector('text:first-of-type');
@@ -1523,22 +1578,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const price = parseFloat(circle.getAttribute('data-price'));
       if (price >= minP && price <= maxP) {
-        circle.setAttribute('fill', '#ffffff');
-        circle.setAttribute('stroke', '#ffffff');
-        if (textPrice) textPrice.setAttribute('fill', '#000000');
-        if (textName) textName.setAttribute('fill', '#333333');
+        circle.setAttribute('fill', isLightH ? '#0f172a' : '#ffffff');
+        circle.setAttribute('stroke', isLightH ? '#0f172a' : '#ffffff');
+        if (textPrice) textPrice.setAttribute('fill', isLightH ? '#ffffff' : '#000000');
+        if (textName) textName.setAttribute('fill', isLightH ? '#cbd5e1' : '#333333');
       } else {
-        circle.setAttribute('fill', '#141414');
-        circle.setAttribute('stroke', '#282828');
-        if (textPrice) textPrice.setAttribute('fill', '#ffffff');
-        if (textName) textName.setAttribute('fill', '#777777');
+        circle.setAttribute('fill', isLightH ? '#ffffff' : '#141414');
+        circle.setAttribute('stroke', isLightH ? '#cbd5e1' : '#282828');
+        if (textPrice) textPrice.setAttribute('fill', isLightH ? '#0f172a' : '#ffffff');
+        if (textName) textName.setAttribute('fill', isLightH ? '#64748b' : '#777777');
       }
     });
   }
 
-  // ------------------------------------------
+
   // Huffman Compression & Checkout Result
-  // ------------------------------------------
+
   function renderCheckoutResult(data) {
     if (!data) return;
     const invoice = data.invoice || {};
@@ -1605,7 +1660,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const savings = Math.max(0, Math.round((1 - bitLen / 8) * 100));
 
       tr.innerHTML = `
-        <td><strong style="color: #fff">${dispChar}</strong></td>
+        <td><strong style="color: var(--text-white)">${dispChar}</strong></td>
         <td>${freq}</td>
         <td><code style="color: var(--accent-cyan); font-weight: 700;">${code}</code></td>
         <td>${bitLen} bits</td>
@@ -1615,9 +1670,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // ------------------------------------------
+
   // Print & Word Document Export Handlers
-  // ------------------------------------------
+
   function escapeHtml(str) {
     if (!str) return '';
     return String(str)
