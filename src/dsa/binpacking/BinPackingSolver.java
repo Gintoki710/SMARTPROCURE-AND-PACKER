@@ -22,7 +22,6 @@ public class BinPackingSolver {
         private double averageUtilization;
         private double courierCost;
         private String theoreticalRatio;
-
         public PackingResult(String algorithmName, List<Box> boxes, double courierFeePerBox, String theoreticalRatio) {
             this.algorithmName = algorithmName;
             this.boxes = boxes;
