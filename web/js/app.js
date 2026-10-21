@@ -56,6 +56,10 @@ document.addEventListener('DOMContentLoaded', () => {
     kpiBoxesProgress: document.getElementById('kpiBoxesProgress'),
     kpiCourierCostSub: document.getElementById('kpiCourierCostSub'),
     themeToggleBtn: document.getElementById('themeToggleBtn'),
+    sidebarToggleBtn: document.getElementById('sidebarToggleBtn'),
+    sidebarCloseBtn: document.getElementById('sidebarCloseBtn'),
+    sidebarBackdrop: document.getElementById('sidebarBackdrop'),
+    appSidebar: document.getElementById('appSidebar'),
     btnQuickUndo: document.getElementById('btnQuickUndo'),
     btnQuickRedo: document.getElementById('btnQuickRedo'),
     undoBadge: document.getElementById('undoBadge'),
@@ -271,9 +275,66 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // Sidebar Navigation Tabs
+  // Sidebar Navigation Tabs & Hamburger Drawer Menu
+
+  function closeSidebar() {
+    if (el.appSidebar) el.appSidebar.classList.remove('open');
+    if (el.sidebarBackdrop) el.sidebarBackdrop.classList.remove('active');
+    if (el.sidebarToggleBtn) {
+      el.sidebarToggleBtn.classList.remove('active');
+      el.sidebarToggleBtn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function openSidebar() {
+    if (el.appSidebar) el.appSidebar.classList.add('open');
+    if (el.sidebarBackdrop) el.sidebarBackdrop.classList.add('active');
+    if (el.sidebarToggleBtn) {
+      el.sidebarToggleBtn.classList.add('active');
+      el.sidebarToggleBtn.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  function toggleSidebar() {
+    if (el.appSidebar && el.appSidebar.classList.contains('open')) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  }
 
   function setupSidebarNavigation() {
+    // Hamburger button toggle
+    if (el.sidebarToggleBtn) {
+      el.sidebarToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleSidebar();
+      });
+    }
+
+    // Close button ('X') inside sidebar header
+    if (el.sidebarCloseBtn) {
+      el.sidebarCloseBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeSidebar();
+      });
+    }
+
+    // Backdrop click closes sidebar
+    if (el.sidebarBackdrop) {
+      el.sidebarBackdrop.addEventListener('click', () => {
+        closeSidebar();
+      });
+    }
+
+    // Keyboard ESC key closes sidebar
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && el.appSidebar && el.appSidebar.classList.contains('open')) {
+        closeSidebar();
+      }
+    });
+
+    // Clicking any menu option selects it and closes the drawer
     el.navItems.forEach(item => {
       item.addEventListener('click', () => {
         const targetTab = item.getAttribute('data-tab');
@@ -284,6 +345,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const activePanel = document.getElementById(targetTab);
         if (activePanel) activePanel.classList.add('active');
         state.activeTab = targetTab;
+
+        // Auto-close sidebar so selected view is immediately displayed full-width
+        closeSidebar();
 
         addLog(`[Navigation] Switched view to: ${targetTab.replace('tab-', '').toUpperCase()}`, 'cyan');
 
@@ -317,6 +381,7 @@ document.addEventListener('DOMContentLoaded', () => {
         el.scenarioBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         state.activePreset = preset;
+        closeSidebar();
 
         if (preset === 'KIRANA_WHOLESALE') {
           if (el.checkoutOrgName) el.checkoutOrgName.value = 'City Wholesale & Kirana Mart';
