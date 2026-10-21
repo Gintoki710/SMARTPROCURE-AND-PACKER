@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: smart-procurement-packer
+    runtime: docker
+    plan: free
+    region: oregon
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 8080
