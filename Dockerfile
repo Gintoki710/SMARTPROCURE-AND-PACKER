@@ -21,3 +21,4 @@ EXPOSE 8080
 
 # Launch server
 CMD ["java", "-cp", "bin", "server.HttpServerApp"]
+
